@@ -11,11 +11,14 @@ import customEnv from "custom-env";
 customEnv.env();
 var app = express();
 
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGINS.split(", "),
-    })
-);
+const corsConfig = {
+    // origin: process.env.CORS_ORIGINS.split(", "),
+    origin: "*",
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
