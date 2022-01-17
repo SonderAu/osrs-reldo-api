@@ -11,7 +11,6 @@ import customEnv from "custom-env";
 customEnv.env();
 var app = express();
 
-console.log(process.env.CORS_ORIGINS);
 app.use(
     cors({
         origin: process.env.CORS_ORIGINS.split(", "),

@@ -8,6 +8,7 @@ router.get("/:rsn", function (req, res, next) {
         .getStatsByGamemode(req.params.rsn, req.query.mode || "seasonal")
         .then((response) => res.send(response))
         .catch((err) => {
+            console.error(err);
             res.status(err.response.status).send({
                 status: err.response.status,
                 error: err,

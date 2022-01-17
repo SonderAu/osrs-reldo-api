@@ -7,21 +7,30 @@ import {
 var router = express.Router();
 
 router.post("/", function (req, res) {
-    submitFeedback(req.body).then((response) =>
-        res.status(response.status).send(response)
-    );
+    submitFeedback(req.body).then((response) => {
+        if (response.status !== 201) {
+            console.error(response);
+        }
+        res.status(response.status).send(response);
+    });
 });
 
 router.post("/bug", function (req, res) {
-    submitBug(req.body).then((response) =>
-        res.status(response.status).send(response)
-    );
+    submitBug(req.body).then((response) => {
+        if (response.status !== 201) {
+            console.error(response);
+        }
+        res.status(response.status).send(response);
+    });
 });
 
 router.post("/suggestion", function (req, res) {
-    submitSuggestion(req.body).then((response) =>
-        res.status(response.status).send(response)
-    );
+    submitSuggestion(req.body).then((response) => {
+        if (response.status !== 201) {
+            console.error(response);
+        }
+        res.status(response.status).send(response);
+    });
 });
 
 export default router;

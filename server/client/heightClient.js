@@ -21,6 +21,7 @@ export function createTask(title, listId, content) {
             };
         })
         .catch((err) => {
+            console.error(err);
             return {
                 status: err.response.status,
                 error: err,
