@@ -13,6 +13,9 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 2. Set up `.env` file:
 
     - Make a copy of `/.env.example` and rename it to `/.env.development`
+    - Any fields with the value `"example"` will need to be replaced with valid values in order to function correctly. Not all routes need env vars.
+        - `/hiscores` routes do not require any env vars
+        - `/feedback` routes require all `HEIGHT_*` vars to be correctly filled out. See [Height API documentation](https://www.notion.so/API-documentation-643aea5bf01742de9232e5971cb4afda) for more info on the keys and IDs used in task creation.
 
 3. Start app and watch for changes:
 
