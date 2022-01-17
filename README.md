@@ -10,11 +10,15 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 
     - `npm install`
 
-2. Start app and watch for changes:
+2. Set up `.env` file:
+
+    - Make a copy of `/.env.example` and rename it to `/.env.development`
+
+3. Start app and watch for changes:
 
     - `npm run start:dev`
 
-3. API will be running at http://localhost:8080/
+4. API will be running at http://localhost:8080/
 
 ## Usage
 

@@ -5,12 +5,15 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index";
 import hiscoresRouter from "./routes/hiscores";
+import customEnv from "custom-env";
 
+customEnv.env();
 var app = express();
 
+console.log(process.env.CORS_ORIGINS);
 app.use(
     cors({
-        origin: ["https://osleague.tools", /\.osleague\.tools$/],
+        origin: process.env.CORS_ORIGINS.split(", "),
     })
 );
 app.use(logger("dev"));
