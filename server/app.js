@@ -7,6 +7,7 @@ import indexRouter from "./routes/index";
 import hiscoresRouter from "./routes/hiscores";
 import feedbackRouter from "./routes/feedback";
 import customEnv from "custom-env";
+import PostgresClient from "./routes/feedback";
 
 customEnv.env();
 var app = express();
@@ -27,5 +28,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", indexRouter);
 app.use("/hiscores", hiscoresRouter);
 app.use("/feedback", feedbackRouter);
+
+PostgresClient.init();
 
 export default app;

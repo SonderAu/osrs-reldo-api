@@ -25,7 +25,9 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 
 ## Usage
 
-### GET `hiscores/:rsn`
+### `/hiscores`
+
+#### **GET** `/hiscores/:rsn`
 
 Returns leagues hiscores for the given RSN, formatted as JSON using [osrs-json-hiscores](https://github.com/maxswa/osrs-json-hiscores#what-youll-get).
 
@@ -36,3 +38,45 @@ Use query param `mode` to get hiscores for a different gamemode. Valid options:
 -   ironman
 -   hardcore
 -   ultimate
+
+### `/feedback`
+
+#### **POST** `/feedback`
+
+Sends general feedback to Height _#feedback_ list.
+
+Request body:
+
+```
+{
+    "description": string,
+}
+```
+
+#### **POST** `/feedback/suggestion`
+
+Sends a suggestion to Height _#suggestions_ list.
+
+Request body:
+
+```
+{
+    "description": string,
+}
+```
+
+#### **POST** `/feedback/bug`
+
+Sends a bug report to Height _#bugs_ list.
+
+Request body:
+
+```
+{
+    "description": string,
+    "reproSteps": string,
+    "device": string,
+    "browser": string,
+    "client": string,
+}
+```
