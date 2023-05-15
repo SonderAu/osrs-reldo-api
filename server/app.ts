@@ -7,7 +7,7 @@ import indexRouter from "./routes/index";
 import hiscoresRouter from "./routes/hiscores";
 import feedbackRouter from "./routes/feedback";
 import customEnv from "custom-env";
-import PostgresClient from "./routes/feedback";
+import PostgresClient from "./client/postgresClient";
 
 customEnv.env();
 var app = express();

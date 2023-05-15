@@ -1,7 +1,19 @@
 const BASE_URL = "https://oldschool.runescape.wiki/api.php";
 const USER_AGENT = "ReldoApp";
 
-function buildURL(action, format, queryParams) {
+enum Action {
+    Search = "opensearch",
+}
+
+enum Format {
+    JSON = "json",
+}
+
+function buildURL(
+    action: Action,
+    format: Format,
+    queryParams: Record<string, string>
+): string {
     const stringQuery = Object.keys(queryParams)
         .map((key) => `&${key}=${queryParams[key]}`)
         .join("");
@@ -18,23 +30,22 @@ function buildURL(action, format, queryParams) {
  *  ...etc
  * }
  */
-export async function textSearch(searchString) {
-    const url = buildURL("opensearch", "json", { search: searchString });
+export async function textSearch(
+    searchString: string
+): Promise<Record<string, string>> {
+    const url = buildURL(Action.Search, Format.JSON, { search: searchString });
     const result = await fetch(url, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "User-agent": USER_AGENT,
         },
-        body: JSON.stringify({
-            name: title,
-            listIds: [listId],
-            description: `${content} \n\n(submitted ${new Date().toISOString()})`,
-        }),
     });
-    const parsedResults = {};
-    for (let i = 0; i < result[1].length; i++) {
-        parsedResults[result[1][i]] = result[3][i];
+
+    const jsonResult = await result.json();
+    const parsedResults: Record<string, string> = {};
+    for (let i = 0; i < jsonResult[1].length; i++) {
+        parsedResults[jsonResult[1][i]] = jsonResult[3][i];
     }
     return parsedResults;
 }

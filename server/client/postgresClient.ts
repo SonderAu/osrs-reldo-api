@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 export default class PostgresClient {
-    static sequelize;
+    static sequelize: Sequelize;
 
     static init() {
         this.sequelize = new Sequelize(
