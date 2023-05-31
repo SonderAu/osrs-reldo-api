@@ -7,8 +7,10 @@ import indexRouter from './routes/index';
 import hiscoresRouter from './routes/hiscores';
 import feedbackRouter from './routes/feedback';
 import customEnv from 'custom-env';
+import dotenv from 'dotenv';
 
 customEnv.env();
+dotenv.config();
 const app = express();
 
 const corsConfig = {

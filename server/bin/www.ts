@@ -7,13 +7,13 @@
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
-const debug = debugLib('your-project-name:server');
+const debug = debugLib('reldo-api:server');
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '8080');
+const port = normalizePort(process.env.PORT ?? '8080');
 app.set('port', port);
 
 /**
@@ -34,7 +34,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalizePort(val: any): any {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -54,12 +54,15 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error: any): any {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  const bind =
+    typeof port === 'string'
+      ? 'Pipe ' + port
+      : `Port ${(port as string) ?? ''}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -80,8 +83,9 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening(): void {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  const bind =
+    typeof addr === 'string' ? 'pipe ' + addr : `port ${addr?.port ?? ''}`;
   debug('Listening on ' + bind);
 }
