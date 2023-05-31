@@ -6,6 +6,7 @@ import logger from 'morgan';
 import indexRouter from './routes/index';
 import hiscoresRouter from './routes/hiscores';
 import feedbackRouter from './routes/feedback';
+import userRouter from './routes/users';
 import customEnv from 'custom-env';
 import dotenv from 'dotenv';
 
@@ -29,5 +30,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', indexRouter);
 app.use('/hiscores', hiscoresRouter);
 app.use('/feedback', feedbackRouter);
+app.use('/user', userRouter);
 
 export default app;

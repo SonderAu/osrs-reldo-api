@@ -16,12 +16,19 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
    - Any fields with the value `"example"` will need to be replaced with valid values in order to function correctly. Not all routes need env vars.
      - `/hiscores` routes do not require any env vars
      - `/feedback` routes require all `HEIGHT_*` vars to be correctly filled out. See [Height API documentation](https://www.notion.so/API-documentation-643aea5bf01742de9232e5971cb4afda) for more info on the keys and IDs used in task creation.
+     - `/user` routes require all `DDB_*` vars to be filled out. You will need an AWS account and an IAM user with DynamoDB read/write permissions.
 
-3. Start app and watch for changes:
+3. Initialize database:
+
+   - Skip this step if you don't intend to use any DB features (`/user` routes).
+   - `npm run init-db`
+   - This will create a table `reldo-users` (prod) and `reldo-users-dev` (development)
+
+4. Start app:
 
    - `npm run dev`
 
-4. API will be running at http://localhost:8080/
+5. API will be running at http://localhost:8080/
 
 ## Usage
 
