@@ -102,4 +102,41 @@ export class DynamoDbClient {
       },
     );
   }
+
+  updateUser(
+    email: string,
+    key: string,
+    payload: string,
+    responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
+  ): void {
+    const params = {
+      ExpressionAttributeNames: {
+        '#Key': key,
+      },
+      ExpressionAttributeValues: {
+        ':value': {
+          S: JSON.stringify(payload),
+        },
+      },
+      Key: {
+        email: { S: email },
+        rsn: { S: DEFAULT_RSN },
+      },
+      ReturnValues: 'ALL_NEW',
+      TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
+      UpdateExpression: 'SET #Key = :value',
+    };
+    this.client.updateItem(
+      params,
+      (err: AWS.AWSError | null, data: AWS.DynamoDB.PutItemOutput | null) => {
+        if (err !== null) {
+          console.log('Error', err);
+          throw new Error(err.message);
+        } else {
+          console.log('Success', data);
+          responseHandler(data);
+        }
+      },
+    );
+  }
 }

@@ -4,6 +4,10 @@ const router = express.Router();
 
 const dynamoDbClient = new DynamoDbClient();
 
+router.options('/', function (req, res) {
+  res.status(200).send();
+});
+
 /**
  * Create an empty user record
  */
@@ -34,7 +38,7 @@ router.put('/', function (req, res) {
   }
 
   try {
-    dynamoDbClient.putUser(email, key, req.body, (response) => {
+    dynamoDbClient.updateUser(email, key, req.body, (response) => {
       res.status(201).send(`User ${email} was updated`);
     });
   } catch (e) {
