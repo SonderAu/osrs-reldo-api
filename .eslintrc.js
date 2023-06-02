@@ -34,6 +34,7 @@ module.exports = {
       { prefer: 'no-type-imports' },
     ],
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+    '@typescript-eslint/strict-boolean-expressions': 'off',
 
     // Disable these, handled by prettier
     'space-before-function-paren': 'off',

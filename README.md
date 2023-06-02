@@ -46,6 +46,39 @@ Use query param `mode` to get hiscores for a different gamemode. Valid options:
 - hardcore
 - ultimate
 
+### `/user`
+
+#### **POST** `/user?email=:email`
+
+Create a new empty user record.
+
+Response codes:
+
+- 201 Successful
+- 400 Missing or improperly formatted email
+- 500 Internal server error
+
+#### **PUT** `/user?email=:email&key=:key`
+
+Create or update a key-value pair within a user record. Request body should be in the form of a JSON payload to be stored under the given key.
+
+Response codes:
+
+- 201 Successful
+- 400 Missing email or improperly formatted email/key
+- 500 Internal server error
+
+#### **GET** `/user?email=:email&key=:key`
+
+Retrieve data from a user record. Key is optional - if no key is provided, the entire dynamoDB record will be returned.
+
+Response codes:
+
+- 201 Successful
+- 400 Missing email or improperly formatted email/key
+- 404 No user record found, or no data found for the given key
+- 500 Internal server error
+
 ### `/feedback`
 
 #### **POST** `/feedback`
