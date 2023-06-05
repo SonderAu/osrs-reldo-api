@@ -69,7 +69,7 @@ router.get('/', function (req, res) {
 
       let responseContent = response.Item;
       if (key) {
-        const value = response.Item[key].S;
+        const value = response.Item[key]?.S;
         if (!value) {
           res.status(404).send(`No data found for key ${key}.`);
           return;
