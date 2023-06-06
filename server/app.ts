@@ -9,6 +9,7 @@ import feedbackRouter from './routes/feedback';
 import userRouter from './routes/users';
 import customEnv from 'custom-env';
 import dotenv from 'dotenv';
+import { auth } from 'express-oauth2-jwt-bearer';
 
 customEnv.env();
 dotenv.config();
@@ -21,6 +22,7 @@ const corsConfig = {
 
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
+app.use(auth());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
