@@ -15,8 +15,7 @@ dotenv.config();
 const app = express();
 
 const corsConfig = {
-  // origin: process.env.CORS_ORIGINS.split(", "),
-  origin: '*',
+  origin: process.env.CORS_ORIGIN ?? '',
   optionsSuccessStatus: 200,
 };
 
