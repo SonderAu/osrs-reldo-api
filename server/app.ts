@@ -20,9 +20,13 @@ const corsConfig = {
   optionsSuccessStatus: 200,
 };
 
+const jwtCheck = auth({
+  issuerBaseURL: process.env.ISSUER_BASE_URL ?? '',
+  audience: process.env.AUDIENCE ?? '',
+});
+
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
-app.use(auth());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +35,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', indexRouter);
 app.use('/hiscores', hiscoresRouter);
 app.use('/feedback', feedbackRouter);
-app.use('/user', userRouter);
+app.use('/user', jwtCheck, userRouter);
 
 export default app;
