@@ -20,13 +20,14 @@ export class DynamoDbClient {
 
   createUser(
     email: string,
+    rsn: string | undefined,
     responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
   ): void {
     const params = {
       TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
       Item: {
         email: { S: email },
-        rsn: { S: DEFAULT_RSN },
+        rsn: { S: rsn ?? DEFAULT_RSN },
       },
     };
 
@@ -46,6 +47,7 @@ export class DynamoDbClient {
 
   getUser(
     email: string,
+    rsn: string | undefined,
     responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
   ): void {
     const params = {
@@ -54,7 +56,7 @@ export class DynamoDbClient {
           S: email,
         },
         rsn: {
-          S: DEFAULT_RSN,
+          S: rsn ?? DEFAULT_RSN,
         },
       },
       TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
@@ -76,6 +78,7 @@ export class DynamoDbClient {
 
   putUser(
     email: string,
+    rsn: string | undefined,
     key: string,
     payload: string,
     responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
@@ -84,7 +87,7 @@ export class DynamoDbClient {
       TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
       Item: {
         email: { S: email },
-        rsn: { S: DEFAULT_RSN },
+        rsn: { S: rsn ?? DEFAULT_RSN },
         [key]: { S: JSON.stringify(payload) },
       },
     };
@@ -105,6 +108,7 @@ export class DynamoDbClient {
 
   updateUser(
     email: string,
+    rsn: string | undefined,
     key: string,
     payload: string,
     responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
@@ -120,7 +124,7 @@ export class DynamoDbClient {
       },
       Key: {
         email: { S: email },
-        rsn: { S: DEFAULT_RSN },
+        rsn: { S: rsn ?? DEFAULT_RSN },
       },
       ReturnValues: 'ALL_NEW',
       TableName: process.env.DDB_USERS_TABLE_NAME ?? '',

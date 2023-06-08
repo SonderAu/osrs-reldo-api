@@ -12,14 +12,14 @@ router.options('/', function (req, res) {
  * Create an empty user record
  */
 router.post('/', function (req, res) {
-  const { email } = req.query;
-  if (typeof email !== 'string') {
+  const { email, rsn } = req.query;
+  if (typeof email !== 'string' || (!!rsn && typeof rsn !== 'string')) {
     res.status(400).send();
     return;
   }
 
   try {
-    dynamoDbClient.createUser(email, (response) => {
+    dynamoDbClient.createUser(email, rsn, (response) => {
       res.status(201).send(`User ${email} was created`);
     });
   } catch (e) {
@@ -31,14 +31,18 @@ router.post('/', function (req, res) {
  * Create or update a key-value pair within a user record
  */
 router.put('/', function (req, res) {
-  const { email, key } = req.query;
-  if (typeof email !== 'string' || typeof key !== 'string') {
+  const { email, rsn, key } = req.query;
+  if (
+    typeof email !== 'string' ||
+    (!!rsn && typeof rsn !== 'string') ||
+    typeof key !== 'string'
+  ) {
     res.status(400).send();
     return;
   }
 
   try {
-    dynamoDbClient.updateUser(email, key, req.body, (response) => {
+    dynamoDbClient.updateUser(email, rsn, key, req.body, (response) => {
       res.status(201).send(`User ${email} was updated`);
     });
   } catch (e) {
@@ -50,9 +54,10 @@ router.put('/', function (req, res) {
  * Retrieve an entire user record, or a specific key within it.
  */
 router.get('/', function (req, res) {
-  const { email, key } = req.query;
+  const { email, rsn, key } = req.query;
   if (
     typeof email !== 'string' ||
+    (!!rsn && typeof rsn !== 'string') ||
     (key !== undefined && typeof key !== 'string')
   ) {
     res.status(400).send();
@@ -60,7 +65,7 @@ router.get('/', function (req, res) {
   }
 
   try {
-    dynamoDbClient.getUser(email, (response) => {
+    dynamoDbClient.getUser(email, rsn, (response) => {
       console.log({ response });
       if (!response?.Item) {
         res.status(404).send(`User ${email} not found`);
