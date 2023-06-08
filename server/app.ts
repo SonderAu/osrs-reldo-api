@@ -35,6 +35,22 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', indexRouter);
 app.use('/hiscores', hiscoresRouter);
 app.use('/feedback', feedbackRouter);
-app.use('/user', jwtCheck, userRouter);
+app.use(
+  '/user',
+  (req, res, next) => {
+    if (req.headers['api-key']) {
+      const validKeys = (process.env.VALID_API_KEYS ?? '').split(', ');
+      for (const key of validKeys) {
+        if (key === req.headers['api-key']) {
+          next();
+        }
+        res.status(401).send('Unauthorized API key');
+      }
+    } else {
+      jwtCheck(req, res, next);
+    }
+  },
+  userRouter,
+);
 
 export default app;
