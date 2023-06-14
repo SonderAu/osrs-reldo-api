@@ -56,7 +56,8 @@ router.put('/', function (req, res) {
 router.get('/', function (req, res) {
   const { email, rsn, key } = req.query;
   if (
-    typeof email !== 'string' ||
+    (!email && !rsn) ||
+    (!!email && typeof email !== 'string') ||
     (!!rsn && typeof rsn !== 'string') ||
     (key !== undefined && typeof key !== 'string')
   ) {
@@ -68,7 +69,7 @@ router.get('/', function (req, res) {
     dynamoDbClient.getUser(email, rsn, (response) => {
       console.log({ response });
       if (!response?.Item) {
-        res.status(404).send(`User ${email} not found`);
+        res.status(404).send(`User ${email ?? rsn ?? 'UNKNOWN'} not found`);
         return;
       }
 

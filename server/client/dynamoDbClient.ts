@@ -46,21 +46,24 @@ export class DynamoDbClient {
   }
 
   getUser(
-    email: string,
+    email: string | undefined,
     rsn: string | undefined,
     responseHandler: (response: AWS.DynamoDB.GetItemOutput | null) => void,
   ): void {
-    const params = {
+    const params: any = {
       Key: {
-        email: {
-          S: email,
-        },
         rsn: {
           S: rsn ?? DEFAULT_RSN,
         },
       },
       TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
     };
+
+    if (email) {
+      params.Key.email = {
+        S: email,
+      };
+    }
 
     this.client.getItem(
       params,
