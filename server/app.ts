@@ -38,6 +38,12 @@ app.use('/feedback', feedbackRouter);
 app.use(
   '/user',
   (req, res, next) => {
+    // Don't require auth for readonly queries
+    if (req.method === 'GET') {
+      next();
+    }
+
+    // Skip bearer auth if valid alternate api key is provided
     if (req.headers['api-key']) {
       const validKeys = (process.env.VALID_API_KEYS ?? '').split(', ');
       for (const key of validKeys) {
