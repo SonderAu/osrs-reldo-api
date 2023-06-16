@@ -66,24 +66,45 @@ router.get('/', function (req, res) {
   }
 
   try {
-    dynamoDbClient.getUser(email, rsn, (response) => {
-      console.log({ response });
-      if (!response?.Item) {
-        res.status(404).send(`User ${email ?? rsn ?? 'UNKNOWN'} not found`);
-        return;
-      }
-
-      let responseContent = response.Item;
-      if (key) {
-        const value = response.Item[key]?.S;
-        if (!value) {
-          res.status(404).send(`No data found for key ${key}.`);
+    if (email) {
+      dynamoDbClient.getUser(email, rsn, (response) => {
+        console.log({ response });
+        if (!response?.Item) {
+          res.status(404).send(`User ${email ?? rsn ?? 'UNKNOWN'} not found`);
           return;
         }
-        responseContent = JSON.parse(value);
-      }
-      res.status(201).send(responseContent);
-    });
+
+        let responseContent = response.Item;
+        if (key) {
+          const value = response.Item[key]?.S;
+          if (!value) {
+            res.status(404).send(`No data found for key ${key}.`);
+            return;
+          }
+          responseContent = JSON.parse(value);
+        }
+        res.status(201).send(responseContent);
+      });
+    } else if (rsn) {
+      dynamoDbClient.getUserByRsn(rsn, (response) => {
+        console.log({ response });
+        if (!response?.Items) {
+          res.status(404).send(`Rsn ${rsn} not found`);
+          return;
+        }
+
+        let responseContent = response.Items[0];
+        if (key) {
+          const value = responseContent[key]?.S;
+          if (!value) {
+            res.status(404).send(`No data found for key ${key}.`);
+            return;
+          }
+          responseContent = JSON.parse(value);
+        }
+        res.status(201).send(responseContent);
+      });
+    }
   } catch (e) {
     res.status(500).send(`Internal Error: ${e as string}`);
   }

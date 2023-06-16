@@ -41,6 +41,7 @@ app.use(
     // Don't require auth for readonly queries
     if (req.method === 'GET') {
       next();
+      return;
     }
 
     // Skip bearer auth if valid alternate api key is provided

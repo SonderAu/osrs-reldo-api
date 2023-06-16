@@ -79,6 +79,29 @@ export class DynamoDbClient {
     );
   }
 
+  getUserByRsn(
+    rsn: string,
+    responseHandler: (response: AWS.DynamoDB.ScanOutput | null) => void,
+  ): void {
+    const params: any = {
+      FilterExpression: `attribute_exists(tasks_${rsn})`,
+      TableName: process.env.DDB_USERS_TABLE_NAME ?? '',
+    };
+
+    this.client.scan(
+      params,
+      (err: AWS.AWSError | null, data: AWS.DynamoDB.GetItemOutput | null) => {
+        if (err !== null) {
+          console.log('Error', err);
+          throw new Error(err.message);
+        } else {
+          console.log('Success', data);
+          responseHandler(data);
+        }
+      },
+    );
+  }
+
   putUser(
     email: string,
     rsn: string | undefined,
