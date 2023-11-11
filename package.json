@@ -13,7 +13,6 @@
     "predev": "eslint --ext .ts .",
     "tsc": "tsc",
     "build": "npm run tsc",
-    "prestart": "npm run build",
     "init-db": "node ./scripts/createDb.js"
   },
   "dependencies": {
