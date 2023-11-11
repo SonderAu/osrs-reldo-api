@@ -4,20 +4,26 @@ type FormData = {
   description: string;
   reproSteps?: string;
   device?: string;
-  browser?: string;
   client?: string;
+  debugInfo?: string;
 };
 
 export async function submitBug(formData: FormData): Promise<CreateTaskResult> {
-  const { description, reproSteps, device, browser, client } = formData;
+  const { description, reproSteps, device, debugInfo, client } = formData;
   return await createTask(
     `Bug Report: ${description.substring(0, 30)}`,
     process.env.HEIGHT_LIST_ID_BUGS ?? '',
-    `${description}\n# Reproduction steps:\n${
-      reproSteps ?? 'None'
-    }\n# System info:\n- Device: ${device ?? 'N/A'}\n- Browser: ${
-      browser ?? 'N/A'
-    }\n- Client: ${client ?? 'N/A'}`,
+    [
+      description,
+      '# Reproduction steps:',
+      reproSteps ?? 'None',
+      '# System info:',
+      device ?? 'Unknown',
+      '# Client:',
+      client ?? 'N/A',
+      '# Localstorage dump:',
+      debugInfo ?? 'N/A',
+    ].join('\n'),
   );
 }
 

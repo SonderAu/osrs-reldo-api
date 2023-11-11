@@ -16,19 +16,12 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
    - Any fields with the value `"example"` will need to be replaced with valid values in order to function correctly. Not all routes need env vars.
      - `/hiscores` routes do not require any env vars
      - `/feedback` routes require all `HEIGHT_*` vars to be correctly filled out. See [Height API documentation](https://www.notion.so/API-documentation-643aea5bf01742de9232e5971cb4afda) for more info on the keys and IDs used in task creation.
-     - `/user` routes require all `DDB_*` vars to be filled out. You will need an AWS account and an IAM user with DynamoDB read/write permissions.
 
-3. Initialize database:
-
-   - Skip this step if you don't intend to use any DB features (`/user` routes).
-   - `npm run init-db`
-   - This will create a table `reldo-users` (prod) and `reldo-users-dev` (development)
-
-4. Start app:
+3. Start app:
 
    - `npm run dev`
 
-5. API will be running at http://localhost:8080/
+4. API will be running at http://localhost:8080/
 
 ## Usage
 
@@ -46,39 +39,6 @@ Use query param `mode` to get hiscores for a different gamemode. Valid options:
 - hardcore
 - ultimate
 
-### `/user`
-
-#### **POST** `/user?email=:email`
-
-Create a new empty user record.
-
-Response codes:
-
-- 201 Successful
-- 400 Missing or improperly formatted email
-- 500 Internal server error
-
-#### **PUT** `/user?email=:email&key=:key`
-
-Create or update a key-value pair within a user record. Request body should be in the form of a JSON payload to be stored under the given key.
-
-Response codes:
-
-- 201 Successful
-- 400 Missing email or improperly formatted email/key
-- 500 Internal server error
-
-#### **GET** `/user?email=:email&key=:key`
-
-Retrieve data from a user record. Key is optional - if no key is provided, the entire dynamoDB record will be returned.
-
-Response codes:
-
-- 201 Successful
-- 400 Missing email or improperly formatted email/key
-- 404 No user record found, or no data found for the given key
-- 500 Internal server error
-
 ### `/feedback`
 
 #### **POST** `/feedback`
@@ -89,7 +49,7 @@ Request body:
 
 ```
 {
-    "description": string,
+  "description": string,
 }
 ```
 
@@ -101,7 +61,7 @@ Request body:
 
 ```
 {
-    "description": string,
+  "description": string,
 }
 ```
 
@@ -113,10 +73,13 @@ Request body:
 
 ```
 {
-    "description": string,
-    "reproSteps": string,
-    "device": string,
-    "browser": string,
-    "client": string,
+  // Required
+  "description": string,
+
+  // Optional
+  "reproSteps": string,
+  "device": string,
+  "client": string,
+  "debugInfo": string,
 }
 ```
