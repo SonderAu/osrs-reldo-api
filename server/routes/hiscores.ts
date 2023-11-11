@@ -12,8 +12,8 @@ router.get('/:rsn', function (req, res, next) {
     .then((response) => res.send(response))
     .catch((err) => {
       console.error(err);
-      res.status(err.response.status).send({
-        status: err.response.status,
+      res.status(err.response?.status ?? 500).send({
+        status: err.response?.status,
         error: err,
       });
     });
