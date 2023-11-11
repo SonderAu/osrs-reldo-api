@@ -11,7 +11,8 @@
     "clean": "rimraf dist",
     "test": "jest",
     "predev": "eslint --ext .ts .",
-    "build": "tsc",
+    "tsc": "tsc",
+    "build": "npm run tsc",
     "prestart": "npm run build",
     "init-db": "node ./scripts/createDb.js"
   },
