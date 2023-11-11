@@ -10,7 +10,7 @@
     "prod": "NODE_ENV=production npm-run-all build server",
     "clean": "rimraf dist",
     "test": "jest",
-    "prebuild": "eslint --ext .ts .",
+    "predev": "eslint --ext .ts .",
     "build": "tsc",
     "prestart": "npm run build",
     "init-db": "node ./scripts/createDb.js"
