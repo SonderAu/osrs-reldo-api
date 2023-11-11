@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "npm run prod",
     "start:dev": "nodemon",
     "server": "node ./dist/bin/www",
     "dev": "NODE_ENV=development npm-run-all build server",
