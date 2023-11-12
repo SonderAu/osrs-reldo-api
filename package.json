@@ -7,11 +7,11 @@
     "start:dev": "nodemon",
     "server": "node ./dist/bin/www",
     "dev": "cross-env NODE_ENV=development npm-run-all build server",
-    "prod": "cross-env NODE_ENV=production npm-run-all server",
+    "prod": "NODE_ENV=production npm run server",
     "clean": "rimraf dist",
     "test": "jest",
     "predev": "eslint --ext .ts .",
-    "tsc": "tsc",
+    "tsc": "./node_modules/typescript/bin/tsc",
     "build": "npm run tsc",
     "init-db": "node ./scripts/createDb.js"
   },
