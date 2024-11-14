@@ -24,7 +24,7 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 4. API will be running at http://localhost:8080/
 
 
-5. Currently, the user authentication relies upon a MySQL Database defined within your .env 
+5. Currently, the user authentication relies upon a MySQL Database defined within your .env. For development testing, a svc account can be set to go towards a publicly reachable DB server.
 
 ## Usage
 
