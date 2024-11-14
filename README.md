@@ -23,6 +23,9 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 
 4. API will be running at http://localhost:8080/
 
+
+5. Currently, the user authentication relies upon a MySQL Database defined within your .env 
+
 ## Usage
 
 ### `/hiscores`
