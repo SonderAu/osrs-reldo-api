@@ -23,27 +23,26 @@ export const registerUser = async (username: string, password: string): Promise<
     );
   };
 
-export const loginHandler = async (req: Request, res: Response): Promise<void> => {
-  const { username, password } = req.body;
-  try {
-    const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM users WHERE username = ?', [username]);
-    if (rows.length === 0) {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-      return;
+  export const loginHandler = async (req: Request, res: Response): Promise<void> => {
+    const { username, password } = req.body;
+    try {
+      const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM users WHERE username = ?', [username]);
+      if (rows.length === 0) {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+        return;
+      }
+      const user = rows[0];
+      const isMatch = await bcrypt.compare(password, user.password_hash);
+      if (isMatch) {
+        const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET as string, {
+          expiresIn: '24h',
+        });
+        res.status(200).json({ success: true, token, username: user.username });
+      } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error('Error in loginHandler:', error);
+      res.status(500).json({ success: false, message: 'Database error' });
     }
-    const user = rows[0];
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    if (isMatch) {
-      const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET as string, {
-        expiresIn: '24h',
-      });
-
-      res.status(200).json({ success: true, token });
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-  } catch (error) {
-    console.error('Error in loginHandler:', error);
-    res.status(500).json({ success: false, message: 'Database error' });
-  }
-};
+  };
