@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env.development' });
+console.log('Environment Variables Loaded:', process.env.DB_TYPE, process.env.POSTGRES_HOST);
 
 let pool: any;
 const dbType = process.env.DB_TYPE;
@@ -30,7 +31,7 @@ if (dbType === 'mysql') {
 }
 
 // Utility function to execute queries based on DB type
-const executeQuery = async (query: string, params: any[]): Promise<any> => {
+export const executeQuery = async (query: string, params: any[]): Promise<any> => {
   if (dbType === 'mysql') {
     const [rows] = await pool.query(query, params);
     return rows;

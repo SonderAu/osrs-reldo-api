@@ -3,8 +3,8 @@ import { saveCharacterStats, getCharacterStats, updateCharacterStats, getAllChar
 
 const router = Router();
 
-// Define the type for asynchronous route handler functions to always return a Response
-type AsyncHandlerFunction = (req: Request, res: Response, next: NextFunction) => Promise<Response>;
+// Define the type for asynchronous route handler functions to always return void
+type AsyncHandlerFunction = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
 // Helper to handle async errors
 const asyncHandler = (fn: AsyncHandlerFunction) => (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +17,7 @@ router.post(
   asyncHandler(async (req: Request, res: Response) => {
     const { characterName, userId, skills, bosses } = req.body;
     const characterId = await saveCharacterStats(characterName, userId, skills, bosses);
-    return res.status(201).json({ success: true, characterId });
+    res.status(201).json({ success: true, characterId });
   }),
 );
 
@@ -28,9 +28,10 @@ router.get(
     const characterId = parseInt(req.params.id);
     const characterData = await getCharacterStats(characterId);
     if (!characterData) {
-      return res.status(404).json({ success: false, message: 'Character not found' });
+      res.status(404).json({ success: false, message: 'Character not found' });
+      return;
     }
-    return res.json({ success: true, characterData });
+    res.json({ success: true, characterData });
   }),
 );
 
@@ -41,7 +42,7 @@ router.put(
     const characterId = parseInt(req.params.id);
     const { skills, bosses } = req.body;
     await updateCharacterStats(characterId, skills, bosses);
-    return res.json({ success: true });
+    res.json({ success: true });
   }),
 );
 
@@ -51,6 +52,8 @@ router.get(
   asyncHandler(async (req: Request, res: Response) => {
     const userId = req.query.userId ? parseInt(req.query.userId as string) : null;
     const characters = await getAllCharacterStats(userId);
-    return res.json({ success: true, characters });
+    res.json({ success: true, characters });
   }),
 );
+
+export default router;
