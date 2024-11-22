@@ -4,3 +4,4 @@ dist-server
 .vscode
 .env
 .env.development
+.dockerignore

@@ -14,6 +14,7 @@ import customEnv from 'custom-env';
 import dotenv from 'dotenv';
 import { auth } from 'express-oauth2-jwt-bearer';
 import pluginSyncRouter from './routes/plugin-sync';
+import getDisplayNamesRouter from './routes/getDisplayNames';
 
 customEnv.env();
 dotenv.config();
@@ -23,6 +24,7 @@ const corsConfig = {
   origin: [
     'http://localhost:3000',
     'https://osleague.tools',
+    'https://dev.osleague.tools'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Authorization', 'Content-Type', 'Accept'],
@@ -46,7 +48,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/storage', storageRouter);
-app.use('/api/plugin-sync', pluginSyncRouter);
+app.use('/api', pluginSyncRouter);
+app.use('/api/getDisplayNames', getDisplayNamesRouter);
 app.use('/', indexRouter);
 app.use('/hiscores', hiscoresRouter);
 app.use('/feedback', feedbackRouter);
