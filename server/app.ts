@@ -9,14 +9,16 @@ import registerRouter from "./routes/register";
 // import hiscoresRouter from "./routes/hiscores.ts.disabled";
 import feedbackRouter from "./routes/feedback";
 import storageRouter from "./routes/storage";
-import customEnv from "custom-env";
 import dotenv from "dotenv";
 import { auth } from "express-oauth2-jwt-bearer";
 import pluginSyncRouter from "./routes/plugin-sync";
 import getDisplayNamesRouter from "./routes/getDisplayNames";
 
-customEnv.env();
-dotenv.config();
+
+const envFile = process.env.NODE_ENV === "development" ? ".env.development" : ".env";
+dotenv.config({ path: envFile });
+
+console.log(`Environment loaded from: ${envFile}`);
 const app = express();
 
 const corsConfig = {
