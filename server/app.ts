@@ -24,7 +24,7 @@ const corsConfig = {
   origin: [
     'http://localhost:3000',
     'https://osleague.tools',
-    'https://dev.osleague.tools'
+    'https://dev.osleague.tools',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Authorization', 'Content-Type', 'Accept'],
