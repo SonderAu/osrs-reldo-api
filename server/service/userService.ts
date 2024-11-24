@@ -2,11 +2,6 @@ import { Request, Response } from "express";
 import { Client, QueryResultRow } from "pg";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-dotenv.config({ path: ".env.development" });
-
-console.log("Environment Variables Loaded:", process.env.POSTGRES_HOST);
 
 // Database connection
 const pool = new Client({
@@ -20,6 +15,14 @@ pool.connect().catch((err) => {
   console.error("Failed to connect to PostgreSQL:", err.message);
   process.exit(1);
 });
+
+console.log("Postgres Config:", {
+  host: process.env.POSTGRES_HOST,
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE,
+});
+
 
 // Define types
 interface UserRow {

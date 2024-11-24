@@ -6,7 +6,7 @@
     "dev": "nodemon --watch server --ext ts,json --exec ts-node ./server/bin/www.ts",
     "start:watch": "nodemon --watch src --ext ts,json --exec ts-node ./src/index.ts",
     "build": "rimraf dist && tsc",
-    "start": "NODE_ENV=production node ./dist/bin/www",
+    "start": "cross-env NODE_ENV=production node ./dist/bin/www.js",
     "server": "node ./dist/bin/www",
     "clean": "rimraf dist",
     "test": "jest",

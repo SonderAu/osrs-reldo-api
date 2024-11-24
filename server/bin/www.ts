@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+import "../env";
 import app from "../app";
 import debugLib from "debug";
 import http from "http";

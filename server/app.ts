@@ -15,10 +15,11 @@ import pluginSyncRouter from "./routes/plugin-sync";
 import getDisplayNamesRouter from "./routes/getDisplayNames";
 
 
-const envFile = process.env.NODE_ENV === "development" ? ".env.development" : ".env";
+const envFile = process.env.NODE_ENV === "production" ? ".env" : ".env.development";
 dotenv.config({ path: envFile });
 
 console.log(`Environment loaded from: ${envFile}`);
+console.log(`Database Name: ${process.env.POSTGRES_DATABASE || "Not specified"}`);
 const app = express();
 
 const corsConfig = {
