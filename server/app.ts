@@ -27,7 +27,6 @@ const corsConfig = {
     "http://localhost:3000",
     "https://osleague.tools",
     "https://dev.osleague.tools",
-    "https://developmentapi.psg.net.au",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Authorization", "Content-Type", "Accept"],
