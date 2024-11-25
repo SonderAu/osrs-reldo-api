@@ -3,20 +3,33 @@ import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import loginRouter from './routes/login';
+import registerRouter from './routes/register';
 import indexRouter from './routes/index';
 import hiscoresRouter from './routes/hiscores';
 import feedbackRouter from './routes/feedback';
+import storageRouter from './routes/storage';
 import userRouter from './routes/users';
 import customEnv from 'custom-env';
 import dotenv from 'dotenv';
 import { auth } from 'express-oauth2-jwt-bearer';
+import pluginSyncRouter from './routes/plugin-sync';
+import getDisplayNamesRouter from './routes/getDisplayNames';
 
 customEnv.env();
 dotenv.config();
 const app = express();
 
 const corsConfig = {
-  origin: process.env.CORS_ORIGIN ?? '',
+  origin: [
+    'http://localhost:3000',
+    'https://osleague.tools',
+    'https://dev.osleague.tools',
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type', 'Accept'],
+  credentials: true,
+  exposedHeaders: ['Authorization'],
   optionsSuccessStatus: 200,
 };
 
@@ -32,6 +45,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/api/login', loginRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/storage', storageRouter);
+app.use('/api', pluginSyncRouter);
+app.use('/api/getDisplayNames', getDisplayNamesRouter);
 app.use('/', indexRouter);
 app.use('/hiscores', hiscoresRouter);
 app.use('/feedback', feedbackRouter);

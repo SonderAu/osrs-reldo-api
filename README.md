@@ -23,6 +23,30 @@ Backend API for use with [os-league-tools](https://github.com/osrs-reldo/os-leag
 
 4. API will be running at http://localhost:8080/
 
+
+5. User Registration and Authentication relies upon a database server, either in PostGres or MySQL, the query to create the relevant tables are below;
+
+PostGres:
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+MySQL:
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,   
+    salt VARCHAR(255) NOT NULL,            
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 ## Usage
 
 ### `/hiscores`
