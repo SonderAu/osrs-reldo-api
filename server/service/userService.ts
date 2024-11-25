@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Client, QueryResultRow } from "pg";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // Database connection
@@ -46,13 +46,12 @@ export const registerUser = async (
   username: string,
   password: string,
 ): Promise<void> => {
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const saltRounds = 10; 
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const query =
-    "INSERT INTO users (username, password_hash, salt) VALUES ($1, $2, $3)";
-  await executeQuery(query, [username, hashedPassword, salt]);
+    "INSERT INTO users (username, password_hash) VALUES ($1, $2)";
+  await executeQuery(query, [username, hashedPassword]);
 };
 
 // Login handler function

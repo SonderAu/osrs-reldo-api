@@ -1,0 +1,12 @@
+version: '1.0'
+
+services:
+  app:
+    image: osrs-reldo-api
+    build:
+      context: .
+    environment:
+      - API_KEY=${API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "3000:3000"
